@@ -17,40 +17,69 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
 }
 
 function validateInput(testInput) {
-if(isNaN(testInput)){
-    return alert ('is not a number')
+    if( testInput ="" ){
+      return alert ('all field are required') 
+    }
+else if(isNaN(testInput)&& (testInput ===fuelLevel.value  ||testInput=== cargoLevel.value)){
+    return alert (' Make sure to enter valid information for each field')
+}
+else if (testInput!=='string' && (testInput==pilot.value || testInput ==copilot.value)){
+    return alert (' Make sure to enter valid information for each field')
 }
    
 }
 
 function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
-pilot=document.querySelector('input[name=pilotName]')
-copilot=document.querySelector('input[name=copilotName]')
-fuelLevel=document.querySelector('input[name=fuelLevel]')
-cargoLevel=document.querySelector('input[name=cargoMass]')
+pilot=document.querySelector('input[name="pilotName"]')
+copilot=document.querySelector('input[name="copilotName"]')
+fuelLevel=document.querySelector('input[name="fuelLevel"]')
+cargoLevel=document.querySelector('input[name="cargoMass"]')
+const launchStatusUpdate=document.getElementById('launchStatus')
+const faultyItems = document.getElementById('faultyItems')
+const cargoStatusUpdate=document.getElementById('cargoStatus')
 const form =document.querySelector('form')
+
 form.addEventListener('submit',(e)=>{
-if(pilot.value===""||copilot.value===""||fuelLevel.value===""|| cargoLevel.value ===""){
-    alert('All field are required')
-    e.preventDefault()
-}
+e.preventDefault()
+
 validateInput(fuelLevel.value)
 validateInput(cargoLevel.value)
+validateInput(pilot.value)
+validateInput(copilot.value)
 
 })
+if(fuelLevel.value<10000){
+faultyItems.style.display ="visible" 
+launchStatusUpdate.innerHTML= "Shuttle not ready for launch "
+launchStatusUpdate.style ="color: red"
+}
+else if (cargoLevel> 10000){
+    faultyItems.style.display='visible'
+    cargoStatusUpdate.innerHTML ='Too much mass for the shuttle to take off'
+    launchStatusUpdate.innerHTML= "Shuttle not ready for launch "
+    launchStatusUpdate.style ="color: red"
+}else {
+    launchStatusUpdate.innerHTML='Shuttle is ready for launch'
+    launchStatusUpdate.style ="color: green"
+}
 
 }
+
 
 async function myFetch() {
     let planetsReturned;
 
-    planetsReturned = await fetch().then( function(response) {
-        });
+    planetsReturned = await fetch('https://handlers.education.launchcode.org/static/planets.json')
+    .then( function(response) {response.json()  })
+    .then (data=>console.log(data));
 
     return planetsReturned;
 }
 
+
 function pickPlanet(planets) {
+    planets=data[Math.floor(Math.random()*9)].name
+    return planets
 }
 
 module.exports.addDestinationInfo = addDestinationInfo;
