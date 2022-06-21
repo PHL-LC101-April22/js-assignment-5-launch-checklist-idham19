@@ -1,6 +1,6 @@
 // Write your JavaScript code here!
 
-const { pickPlanet } = require("./scriptHelper");
+const {  } = require("./scriptHelper");
 
 window.addEventListener("load", function() {
 
