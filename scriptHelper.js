@@ -1,5 +1,5 @@
 // // Write your helper functions here!
-require('isomorphic-fetch');
+// require('isomorphic-fetch');
 const pilot=document.querySelector('input[name="pilotName"]')
 const copilot=document.querySelector('input[name="copilotName"]')
 const fuelLevel=document.querySelector('input[name="fuelLevel"]')
@@ -8,6 +8,8 @@ const launchStatusUpdate=document.getElementById('launchStatus')
 const faultyItems = document.getElementById('faultyItems')
 const cargoStatusUpdate=document.getElementById('cargoStatus')
 const fuelStatus =document.getElementById("fuelStatus")
+const pilotStatus=document.getElementById("pilotStatus")
+const copilotStatus=document.getElementById("copilotStatus")
 const form =document.querySelector('form')
 
 
@@ -42,10 +44,12 @@ function validateInput(testInput) {
 
 
 function formSubmission(document, pilot, copilot, fuelLevel, cargoLevel) {
-pilot=document.querySelector('input[name="pilotName"]')
-copilot=document.querySelector('input[name="copilotName"]')
-fuelLevel=document.querySelector('input[name="fuelLevel"]')
-cargoLevel=document.querySelector('input[name="cargoMass"]')
+    pilot=document.querySelector('input[name="pilotName"]')
+    copilot=document.querySelector('input[name="copilotName"]')
+    fuelLevel=document.querySelector('input[name="fuelLevel"]')
+    cargoLevel=document.querySelector('input[name="cargoMass"]')
+    
+    
 
 
 form.addEventListener('submit',(e)=>{
@@ -54,9 +58,11 @@ form.addEventListener('submit',(e)=>{
     }
     validateInput(fuelLevel.value)
     validateInput(cargoLevel.value)
-    
+    e.preventDefault()
     if(fuelLevel.value<10000){
         faultyItems.style.visibility ="visible" 
+        pilotStatus.innerHTML=`Pilot ${pilot.value} is ready for launch`
+        copilotStatus.innerHTML=` Copilot ${copilot.value}  is ready for launch`
         fuelStatus.innerHTML='there is not enough fuel for the journey '
         launchStatusUpdate.innerHTML= "Shuttle not ready for launch "
         launchStatusUpdate.style ="color: red"
@@ -64,6 +70,8 @@ form.addEventListener('submit',(e)=>{
     }
     else if (cargoLevel.value> 10000){
         faultyItems.style.visibility='visible'
+        pilotStatus.innerHTML=`Pilot ${pilot.value} is ready for launch`
+        copilotStatus.innerHTML=` Copilot ${copilot.value}  is ready for launch`
         cargoStatusUpdate.innerHTML ='Too much mass for the shuttle to take off'
         launchStatusUpdate.innerHTML= "Shuttle not ready for launch "
         launchStatusUpdate.style ="color: red"}
@@ -71,7 +79,6 @@ form.addEventListener('submit',(e)=>{
             launchStatusUpdate.innerHTML='Shuttle is ready for launch'
             launchStatusUpdate.style ="color: green"
         }
-        e.preventDefault()
         
  })
 
